@@ -1,0 +1,49 @@
+{
+  "toppings": [
+    "anchovy",
+    "bacon",
+    "basil",
+    "chili",
+    "mozzarella",
+    "mushroom",
+    "olive",
+    "onion",
+    "pepper",
+    "pepperoni",
+    "sweetcorn",
+    "tomato"
+  ],
+  "pizzas": [
+    {
+      "name": "The Inferno",
+      "toppings": [
+        "chili",
+        "bacon",
+        "mushroom",
+        "basil",
+        "pepperoni",
+        "olive",
+        "sweetcorn",
+        "anchovy",
+        "mozzarella",
+        "pepper",
+        "tomato"
+      ],
+      "id": 1
+    },
+    {
+      "name": "Seaside Surfin'",
+      "toppings": [
+        "mozzarella",
+        "mushroom",
+        "anchovy",
+        "pepper",
+        "olive",
+        "onion",
+        "sweetcorn",
+        "tomato"
+      ],
+      "id": 2
+    }
+  ]
+}

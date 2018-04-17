@@ -5,15 +5,9 @@ import {
   EventEmitter,
   OnChanges,
   SimpleChanges,
-  ChangeDetectionStrategy,
+  ChangeDetectionStrategy
 } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  FormArray,
-  FormBuilder,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, FormArray, FormBuilder, Validators } from '@angular/forms';
 
 import { map } from 'rxjs/operators';
 
@@ -84,7 +78,7 @@ import { Pizza } from '../../models/pizza.model';
 
       </form>
     </div>
-  `,
+  `
 })
 export class PizzaFormComponent implements OnChanges {
   exists = false;
@@ -100,10 +94,15 @@ export class PizzaFormComponent implements OnChanges {
   form = this.fb.group({
     name: ['', Validators.required],
     toppings: [[]],
-    sizes: [[]],
+    sizes: [[]]
   });
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder) {
+    this.form
+      .get('toppings')
+      .valueChanges.pipe(map(toppings => ({ ...this.pizza, toppings })))
+      .subscribe(value => this.selected.emit(value));
+  }
 
   get nameControl() {
     return this.form.get('name') as FormControl;
@@ -114,14 +113,10 @@ export class PizzaFormComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (this.pizza && this.pizza.id) {
+    if (this.pizza && this.pizza.id && !this.exists) {
       this.exists = true;
       this.form.patchValue(this.pizza);
     }
-    this.form
-      .get('toppings')
-      .valueChanges.pipe(map(toppings => ({ ...this.pizza, toppings })))
-      .subscribe(value => this.selected.emit(value));
   }
 
   createPizza(form: FormGroup) {

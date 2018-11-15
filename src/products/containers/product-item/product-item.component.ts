@@ -7,7 +7,6 @@ import { map, switchMap, tap } from 'rxjs/operators';
 
 import { Pizza } from '../../models/pizza.model';
 import { PizzasService } from '../../services/pizzas.service';
-import { ToppingsService } from '../../services/toppings.service';
 
 import * as fromStore from '../../store';
 
@@ -20,7 +19,7 @@ import * as fromStore from '../../store';
       class="product-item">
       <pizza-form
         [pizza]="pizza$ | async"
-        [toppings]="toppings"
+        [toppings]="toppings$ | async"
         (selected)="onSelect($event)"
         (create)="onCreate($event)"
         (update)="onUpdate($event)"
@@ -35,11 +34,10 @@ import * as fromStore from '../../store';
 export class ProductItemComponent implements OnInit {
   pizza$: Observable<Pizza>;
   selected$: Observable<Pizza>;
-  toppings: string[];
+  toppings$: Observable<string[]>;
 
   constructor(
     private pizzaService: PizzasService,
-    private toppingsService: ToppingsService,
     private route: ActivatedRoute,
     private router: Router,
     private store: Store<fromStore.ProductsState>,
@@ -47,9 +45,6 @@ export class ProductItemComponent implements OnInit {
 
   ngOnInit() {
     this.selected$ = this.store.select(fromStore.getSelectedPizza);
-    // this.toppingsService.getToppings().subscribe(toppings => {
-    //   this.toppings = toppings;
-    // });
     this.pizza$ = this.route.params.pipe(
       switchMap((params) => {
         if (params.id === 'new') {
@@ -64,7 +59,9 @@ export class ProductItemComponent implements OnInit {
         );
       }),
     );
+    this.toppings$ = this.store.select(fromStore.getToppings);
     this.store.dispatch(new fromStore.LoadPizzas());
+    this.store.dispatch(new fromStore.LoadToppings());
   }
 
   onSelect(pizza: Pizza) {

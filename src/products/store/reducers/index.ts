@@ -10,11 +10,13 @@ import * as fromToppings from './toppings.reducer';
 // feature state
 export interface ProductsState {
   pizzas: fromPizzas.PizzaState;
+  toppings: fromToppings.ToppingsState;
 }
 
 // reducers
 export const reducers: ActionReducerMap<ProductsState> = {
   pizzas: fromPizzas.reducer,
+  toppings: fromToppings.reducer,
 };
 
 export const getProductsState =
@@ -33,4 +35,14 @@ export const getPizzas = createSelector(
 export const getSelectedPizza = createSelector(
   getPizzaState,
   fromPizzas.getSelectedPizza,
+);
+
+export const getToppingsState = createSelector(
+  getProductsState,
+  (state: ProductsState) => state.toppings,
+);
+
+export const getToppings = createSelector(
+  getToppingsState,
+  fromToppings.getToppings,
 );

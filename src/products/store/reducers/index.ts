@@ -29,3 +29,8 @@ export const getPizzas = createSelector(
   getPizzaState,
   fromPizzas.getPizzas,
 );
+
+export const getSelectedPizza = createSelector(
+  getPizzaState,
+  fromPizzas.getSelectedPizza,
+);
